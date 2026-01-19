@@ -1,6 +1,10 @@
 // Enkel minnes-cache för län (för att slippa göra samma request flera gånger)
 const countyCache = {};
 
+const AUCTIONS_API = process.env.AUCTIONS_API;
+const BASE_URL = process.env.BASE_URL;
+const NOMINATIM_USERAGENT = process.env.NOMINATIM_USERAGENT;
+
 async function getCounty(city) {
   if (!city) return "Okänt län";
   if (countyCache[city]) return countyCache[city];
@@ -14,14 +18,10 @@ async function getCounty(city) {
     console.log("Fetching URL:", url);
 
     const res = await fetch(url, {
-      headers: { "User-Agent": "Vue-CarAuction-App/1.0" }
+      headers: { "User-Agent": NOMINATIM_USERAGENT }
     });
 
     const data = await res.json();
-
-    console.log("Nominatim response for city:", JSON.stringify(data, null, 2));
-
-    // ✅ Rätt fält nu
     const county = data[0]?.address?.county || "Okänt län";
 
     countyCache[city] = county;
@@ -32,22 +32,21 @@ async function getCounty(city) {
   }
 }
 
-
 export default async function handler(req, res) {
   try {
     // 1️⃣ Hämta dynamiskt buildId från HTML
-    const htmlRes = await fetch("https://carstore.eu/auction/se");
+    const htmlRes = await fetch(BASE_URL);
     const htmlText = await htmlRes.text();
     const match = htmlText.match(/_next\/static\/([a-zA-Z0-9-_]+)\/_buildManifest\.js/);
     if (!match) throw new Error("Kan inte hitta Next.js Build ID");
     const buildId = match[1];
 
     // 2️⃣ Hämta alla auktioner
-    const auctionsUrl = "https://carstore.eu/auction/se/api/auctions";
+    const auctionsUrl = AUCTIONS_API;
     const auctionsRes = await fetch(auctionsUrl);
     const auctionsList = await auctionsRes.json();
 
-    const detailTemplate = `https://carstore.eu/auction/se/_next/data/${buildId}/sv-SE/%d.json?path=%d`;
+    const detailTemplate = `${BASE_URL}/_next/data/${buildId}/sv-SE/%d.json?path=%d`;
 
     const results = [];
 
