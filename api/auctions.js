@@ -87,11 +87,11 @@ export default async function handler(req, res) {
     // 4️⃣ Sortera: Skåne först, sen andra län i ordning
       const preferredOrder = [
         "Skåne län",
+        "Hallands län",
         "Blekinge län",
         "Kronobergs län",
-        "Kalmar län",
-        "Hallands län",
         "Västra Götalands län",
+        "Kalmar län",
         "Jönköpings län",
         "Östergötlands län",
         "Södermanlands län",

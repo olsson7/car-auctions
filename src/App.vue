@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Aktiva auktioner</h1>
+    <h1>Auktioner</h1>
 
     <div v-if="loading" class="loader-container">
       <div class="spinner"></div>
@@ -10,12 +10,12 @@
 
     <div v-else>
       <!-- Loop över län -->
-        <div v-for="(group, county) in auctionsByCounty" :key="county" class="county-group">
-          <h2 class="county-title">
-            {{ county }} ({{ group.length }})
-          </h2>
-          <div class="list">
-            <div v-for="a in group" :key="a.id" class="card">
+      <div v-for="(group, county) in auctionsByCounty" :key="county" class="county-group">
+        <h2 class="county-title">
+          {{ county }} ({{ group.length }})
+        </h2>
+        <div class="list">
+          <div v-for="a in group" :key="a.id" class="card">
             <img
               :src="a.image"
               alt="Bilbild"
@@ -82,7 +82,29 @@ const auctionsByCounty = computed(() => {
   });
 
   // Sortera grupper enligt preferred order
-  const preferredOrder = ["Skåne län", "Blekinge län", "Halland län", "Västra Götalands län", "Östergötland län", "Stockholm län"];
+  const preferredOrder = [
+          "Skåne län",
+          "Hallands län",
+          "Blekinge län",
+          "Kronobergs län",
+          "Västra Götalands län",
+          "Kalmar län",
+          "Jönköpings län",
+          "Östergötlands län",
+          "Södermanlands län",
+          "Uppsala län",
+          "Stockholms län",
+          "Västmanlands län",
+          "Örebro län",
+          "Värmlands län",
+          "Gävleborgs län",
+          "Västernorrlands län",
+          "Jämtlands län",
+          "Västerbottens län",
+          "Norrbottens län",
+          "Okänt län"
+        ];
+
   const orderedGroups = {};
 
   preferredOrder.forEach(c => {
