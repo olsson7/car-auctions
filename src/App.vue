@@ -179,6 +179,7 @@ const auctionsByCounty = computed(() => {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin-bottom: 12px;
+}
 
 .county-title {
   font-size: 24px;
