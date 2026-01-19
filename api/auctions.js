@@ -10,17 +10,19 @@ async function getCounty(city) {
       city
     )},Sweden&format=json&addressdetails=1&limit=1`;
 
+    console.log("Nominatim search for city:", city);
+    console.log("Fetching URL:", url);
+
     const res = await fetch(url, {
       headers: { "User-Agent": "Vue-CarAuction-App/1.0" }
     });
 
     const data = await res.json();
 
-    console.log("Nominatim search for city:", city);
-    console.log("Nominatim response:", JSON.stringify(data, null, 2));
+    console.log("Nominatim response for city:", JSON.stringify(data, null, 2));
 
-    // Nu hämtar vi län från address.state
-    const county = data[0]?.address?.state || "Okänt län";
+    // ✅ Rätt fält nu
+    const county = data[0]?.address?.county || "Okänt län";
 
     countyCache[city] = county;
     return county;
@@ -29,6 +31,7 @@ async function getCounty(city) {
     return "Okänt län";
   }
 }
+
 
 export default async function handler(req, res) {
   try {
