@@ -92,26 +92,24 @@ function onImageError(e) {
 }
 
 .list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
 }
 
 .card {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  flex-direction: column;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: white;
+  overflow: hidden;
 }
 
 .image {
-  width: 160px;
-  height: 100px;
+  width: 100%;
+  height: 140px;
   object-fit: cover;
-  border-radius: 6px;
-  background: #f0f0f0;
 }
 
 .info {
