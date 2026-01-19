@@ -33,7 +33,7 @@
           </p>
 
           <p class="location">
-            {{ a.location }}, {{ a.city }}
+            {{ a.location }}, {{ a.city }} ({{ a.county }})
           </p>
 
           <a
