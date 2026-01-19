@@ -33,7 +33,8 @@ export default async function handler(req, res) {
         gearbox: basePath.car.car_gearbox ?? "N/A",
         reservePrice: basePath.auction?.acceptPrice ?? "N/A",
         location: basePath.site?.site_official_name ?? "N/A",
-        city: basePath.site?.site_city ?? "N/A"
+        city: basePath.site?.site_city ?? "N/A",
+        image: basePath.car.car_primary_image?.thumbnail_url ?? null
       });
     }
 

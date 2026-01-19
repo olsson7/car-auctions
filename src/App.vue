@@ -1,41 +1,48 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Aktiva auktioner</h1>
 
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Regnummer</th>
-          <th>Modell</th>
-          <th>Årsmodell</th>
-          <th>Mil</th>
-          <th>Växellåda</th>
-          <th>Pris</th>
-          <th>Plats</th>
-          <th></th>
-        </tr>
-      </thead>
+    <div v-if="loading" class="status">Laddar auktioner…</div>
+    <div v-else-if="error" class="status error">{{ error }}</div>
 
-      <tbody>
-        <tr v-for="a in auctions" :key="a.id">
-          <td>{{ a.regNumber }}</td>
-          <td>{{ a.brand }} {{ a.model }}</td>
-          <td>{{ a.year }}</td>
-          <td>{{ a.mileage }}</td>
-          <td>{{ a.gearbox }}</td>
-          <td>{{ a.reservePrice }}</td>
-          <td>{{ a.location }}, {{ a.city }}</td>
-          <td>
-            <a
-              :href="`https://carstore.eu/auction/se/${a.id}`"
-              target="_blank"
-            >
-              Visa
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-else class="list">
+      <div
+        v-for="a in auctions"
+        :key="a.id"
+        class="card"
+      >
+        <img
+          :src="a.image"
+          alt="Bilbild"
+          class="image"
+          @error="onImageError"
+        />
+
+        <div class="info">
+          <h2>{{ a.brand }} {{ a.model }}</h2>
+
+          <p class="meta">
+            {{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}
+          </p>
+
+          <p class="price">
+            {{ a.reservePrice }}
+          </p>
+
+          <p class="location">
+            {{ a.location }}, {{ a.city }}
+          </p>
+
+          <a
+            class="link"
+            :href="`https://carstore.eu/auction/se/${a.id}`"
+            target="_blank"
+          >
+            Visa auktion →
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -43,9 +50,95 @@
 import { ref, onMounted } from "vue";
 
 const auctions = ref([]);
+const loading = ref(true);
+const error = ref(null);
 
 onMounted(async () => {
-  const res = await fetch("/api/auctions");
-  auctions.value = await res.json();
+  try {
+    const res = await fetch("/api/auctions");
+    if (!res.ok) throw new Error("Kunde inte hämta auktioner");
+    auctions.value = await res.json();
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
 });
+
+function onImageError(e) {
+  e.target.src =
+    "https://via.placeholder.com/160x100?text=Ingen+bild";
+}
 </script>
+
+<style>
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: system-ui, sans-serif;
+}
+
+.status {
+  padding: 20px;
+  color: #666;
+}
+
+.status.error {
+  color: red;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+}
+
+.image {
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.meta {
+  color: #666;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.location {
+  font-size: 14px;
+  color: #444;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #0070f3;
+  text-decoration: none;
+}
+</style>
