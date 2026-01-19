@@ -55,7 +55,7 @@ const auctions = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 
