@@ -114,6 +114,7 @@ const auctionsByCounty = computed(() => {
   color: red;
 }
 
+/* --- Cards --- */
 .card {
   display: flex;
   flex-direction: column;
@@ -163,6 +164,7 @@ const auctionsByCounty = computed(() => {
   text-decoration: none;
 }
 
+/* --- Loader / Spinner --- */
 .loader-container {
   display: flex;
   flex-direction: column;
@@ -171,16 +173,24 @@ const auctionsByCounty = computed(() => {
   padding: 60px;
   color: #555;
 }
+
 .spinner {
   width: 40px;
   height: 40px;
   border: 4px solid #ddd;
   border-top: 4px solid #0070f3;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
   margin-bottom: 12px;
+  animation: spin 0.8s linear infinite; /* ✅ applicerad animation */
 }
 
+/* Keyframes för rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- County grouping --- */
 .county-title {
   font-size: 24px;
   margin-top: 40px;
@@ -188,13 +198,14 @@ const auctionsByCounty = computed(() => {
   border-bottom: 2px solid #0070f3;
   padding-bottom: 4px;
 }
+
 .county-group .list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* Anpassa grid för responsiv design */
+/* --- Responsiv grid --- */
 @media (max-width: 1200px) {
   .county-group .list {
     grid-template-columns: repeat(3, 1fr);
@@ -210,4 +221,5 @@ const auctionsByCounty = computed(() => {
     grid-template-columns: 1fr;
   }
 }
+
 </style>
