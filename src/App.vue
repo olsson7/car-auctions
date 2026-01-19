@@ -35,7 +35,7 @@
                 <!-- Länk alltid längst ner -->
                 <a
                   class="link"
-                  :href="`${BASE_URL}/${a.id}`"
+                  :href="`https://carstore.eu/auction/se/${a.id}`"
                   target="_blank"
                 >
                   Visa auktion →
