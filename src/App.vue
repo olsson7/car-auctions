@@ -23,20 +23,25 @@
               @error="onImageError"
             />
 
-            <div class="info">
-              <h2>{{ a.brand }} {{ a.model }}</h2>
-              <p class="meta">{{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}</p>
-              <p class="price">{{ formatPrice(a.reservePrice) }}</p>
-              <p class="location">{{ a.location }}, {{ a.city }} ({{ a.county }})</p>
+              <div class="info">
+                <!-- All text i en flexcontainer som kan krympa -->
+                <div class="info-text">
+                  <h2>{{ a.brand }} {{ a.model }}</h2>
+                  <p class="meta">{{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}</p>
+                  <p class="price">{{ formatPrice(a.reservePrice) }}</p>
+                  <p class="location">{{ a.location }}, {{ a.city }} ({{ a.county }})</p>
+                </div>
+
+                <!-- Länk alltid längst ner -->
+                <a
+                  class="link"
+                  :href="`/api/redirect/${a.id}`"
+                  target="_blank"
+                >
+                  Visa auktion →
+                </a>
+              </div>
             </div>
-            <a
-                            class="link"
-                            :href="`https://carstore.eu/auction/se/${a.id}`"
-                            target="_blank"
-                          >
-                            Visa auktion →
-                          </a>
-          </div>
         </div>
       </div>
     </div>
@@ -138,7 +143,6 @@ const auctionsByCounty = computed(() => {
   color: red;
 }
 
-/* --- Cards --- */
 .card {
   display: flex;
   flex-direction: column;
@@ -147,13 +151,24 @@ const auctionsByCounty = computed(() => {
   background: white;
   overflow: hidden;
   padding: 1em;
+  height: 100%;
 }
 
 .info {
-  flex: 1; /* tar all återstående höjd */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* pushar länken längst ner */
+  flex: 1;
+}
+
+.info-text {
+  flex: 1;        /* tar all återstående höjd */
+}
+
+.link {
+  margin-top: auto; /* pushar länken längst ner */
+  display: inline-block;
+  color: #0070f3;
+  text-decoration: none;
 }
 
 
