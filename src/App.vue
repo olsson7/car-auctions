@@ -35,7 +35,7 @@
                 <!-- Länk alltid längst ner -->
                 <a
                   class="link"
-                  :href="`/api/redirect/${a.id}`"
+                  :href="`${BASE_URL}/${a.id}`"
                   target="_blank"
                 >
                   Visa auktion →
@@ -54,6 +54,10 @@ import { ref, onMounted, computed } from "vue";
 const auctions = ref([]);
 const loading = ref(true);
 const error = ref(null);
+
+const BASE_URL = process.env.BASE_URL;
+
+
 
 onMounted(async () => {
   try {
