@@ -149,14 +149,18 @@ const auctionsByCounty = computed(() => {
   padding: 1em;
 }
 
+.info {
+  flex: 1; /* tar all återstående höjd */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushar länken längst ner */
+}
+
+
 .image {
   width: 100%;
   max-height: 140px;
   object-fit: cover;
-}
-
-.info {
-  flex: 1;
 }
 
 .info h2 {
