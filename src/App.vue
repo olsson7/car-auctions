@@ -2,7 +2,10 @@
   <div class="container">
     <h1>Aktiva auktioner</h1>
 
-    <div v-if="loading" class="status">Laddar auktioner…</div>
+    <div v-if="loading" class="loader-container">
+      <div class="spinner"></div>
+      <p>Laddar auktioner…</p>
+    </div>
     <div v-else-if="error" class="status error">{{ error }}</div>
 
     <div v-else class="list">
@@ -140,5 +143,30 @@ function onImageError(e) {
   margin-top: 8px;
   color: #0070f3;
   text-decoration: none;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  color: #555;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #0070f3;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
