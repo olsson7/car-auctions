@@ -29,7 +29,7 @@
           </p>
 
           <p class="price">
-            {{ a.reservePrice }}
+            {{ formatPrice(a.reservePrice) }}
           </p>
 
           <p class="location">
@@ -67,6 +67,12 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+function formatPrice(price) {
+  if (!price || isNaN(price)) return "N/A";
+  const number = Number(price);
+  return new Intl.NumberFormat("sv-SE").format(number) + " kr";
+}
 
 function onImageError(e) {
   e.target.src =
