@@ -97,9 +97,89 @@ const auctionsByCounty = computed(() => {
 </script>
 
 <style>
-/* Behåll all befintlig CSS från din fil */
 
-/* Lägg till styling för länsrubriker */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: system-ui, sans-serif;
+}
+
+.status {
+  padding: 20px;
+  color: #666;
+}
+
+.status.error {
+  color: red;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+  padding: 1em;
+}
+
+.image {
+  width: 100%;
+  max-height: 140px;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: gray;
+}
+
+.meta {
+  color: #666;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: bold;
+  margin: 8px 0;
+  color: black;
+}
+
+.location {
+  font-size: 14px;
+  color: #444;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  color: #555;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #0070f3;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+
 .county-title {
   font-size: 24px;
   margin-top: 40px;
