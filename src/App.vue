@@ -28,14 +28,14 @@
               <p class="meta">{{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}</p>
               <p class="price">{{ formatPrice(a.reservePrice) }}</p>
               <p class="location">{{ a.location }}, {{ a.city }} ({{ a.county }})</p>
-              <a
-                class="link"
-                :href="`https://carstore.eu/auction/se/${a.id}`"
-                target="_blank"
-              >
-                Visa auktion →
-              </a>
             </div>
+            <a
+                            class="link"
+                            :href="`https://carstore.eu/auction/se/${a.id}`"
+                            target="_blank"
+                          >
+                            Visa auktion →
+                          </a>
           </div>
         </div>
       </div>
