@@ -104,11 +104,12 @@ function onImageError(e) {
   border-radius: 8px;
   background: white;
   overflow: hidden;
+  padding: 1em;
 }
 
 .image {
   width: 100%;
-  height: 140px;
+  max-height: 140px;
   object-fit: cover;
 }
 
