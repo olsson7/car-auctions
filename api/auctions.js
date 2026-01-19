@@ -15,6 +15,11 @@ async function getCounty(city) {
     });
 
     const data = await res.json();
+
+    console.log("Nominatim search for city:", city);
+    console.log("Nominatim response:", JSON.stringify(data, null, 2));
+
+    // Nu hämtar vi län från address.state
     const county = data[0]?.address?.state || "Okänt län";
 
     countyCache[city] = county;
