@@ -85,7 +85,28 @@ export default async function handler(req, res) {
     }
 
     // 4️⃣ Sortera: Skåne först, sen andra län i ordning
-    const preferredOrder = ["Skåne län", "Hallands län", "Kronobergs län" , "Blekinge län", "Västra Götaland län", "Östergötland län", "Södermanlands län", "Stockholm län"];
+      const preferredOrder = [
+        "Skåne län",
+        "Blekinge län",
+        "Kronobergs län",
+        "Kalmar län",
+        "Hallands län",
+        "Västra Götalands län",
+        "Jönköpings län",
+        "Östergötlands län",
+        "Södermanlands län",
+        "Uppsala län",
+        "Stockholms län",
+        "Västmanlands län",
+        "Örebro län",
+        "Värmlands län",
+        "Gävleborgs län",
+        "Västernorrlands län",
+        "Jämtlands län",
+        "Västerbottens län",
+        "Norrbottens län",
+        "Okänt län"
+      ];
     results.sort((a, b) => {
       const indexA = preferredOrder.indexOf(a.county);
       const indexB = preferredOrder.indexOf(b.county);

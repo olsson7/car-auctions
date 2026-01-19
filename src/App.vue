@@ -10,10 +10,12 @@
 
     <div v-else>
       <!-- Loop över län -->
-      <div v-for="(group, county) in auctionsByCounty" :key="county" class="county-group">
-        <h2 class="county-title">{{ county }}</h2>
-        <div class="list">
-          <div v-for="a in group" :key="a.id" class="card">
+        <div v-for="(group, county) in auctionsByCounty" :key="county" class="county-group">
+          <h2 class="county-title">
+            {{ county }} ({{ group.length }})
+          </h2>
+          <div class="list">
+            <div v-for="a in group" :key="a.id" class="card">
             <img
               :src="a.image"
               alt="Bilbild"
