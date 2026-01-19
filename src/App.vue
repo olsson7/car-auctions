@@ -120,6 +120,7 @@ function onImageError(e) {
 .info h2 {
   margin: 0 0 6px;
   font-size: 18px;
+  color: gray;
 }
 
 .meta {
@@ -130,6 +131,7 @@ function onImageError(e) {
 .price {
   font-weight: bold;
   margin: 8px 0;
+  color: black;
 }
 
 .location {
