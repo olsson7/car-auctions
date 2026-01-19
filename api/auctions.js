@@ -1,6 +1,3 @@
-// api/auctions.js
-const fetch = require("node-fetch");
-
 // Enkel minnes-cache för län (för att slippa göra samma request flera gånger)
 const countyCache = {};
 
