@@ -8,41 +8,33 @@
     </div>
     <div v-else-if="error" class="status error">{{ error }}</div>
 
-    <div v-else class="list">
-      <div
-        v-for="a in auctions"
-        :key="a.id"
-        class="card"
-      >
-        <img
-          :src="a.image"
-          alt="Bilbild"
-          class="image"
-          @error="onImageError"
-        />
+    <div v-else>
+      <!-- Loop över län -->
+      <div v-for="(group, county) in auctionsByCounty" :key="county" class="county-group">
+        <h2 class="county-title">{{ county }}</h2>
+        <div class="list">
+          <div v-for="a in group" :key="a.id" class="card">
+            <img
+              :src="a.image"
+              alt="Bilbild"
+              class="image"
+              @error="onImageError"
+            />
 
-        <div class="info">
-          <h2>{{ a.brand }} {{ a.model }}</h2>
-
-          <p class="meta">
-            {{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}
-          </p>
-
-          <p class="price">
-            {{ formatPrice(a.reservePrice) }}
-          </p>
-
-          <p class="location">
-            {{ a.location }}, {{ a.city }} ({{ a.county }})
-          </p>
-
-          <a
-            class="link"
-            :href="`https://carstore.eu/auction/se/${a.id}`"
-            target="_blank"
-          >
-            Visa auktion →
-          </a>
+            <div class="info">
+              <h2>{{ a.brand }} {{ a.model }}</h2>
+              <p class="meta">{{ a.year }} • {{ a.mileage }} • {{ a.gearbox }}</p>
+              <p class="price">{{ formatPrice(a.reservePrice) }}</p>
+              <p class="location">{{ a.location }}, {{ a.city }} ({{ a.county }})</p>
+              <a
+                class="link"
+                :href="`https://carstore.eu/auction/se/${a.id}`"
+                target="_blank"
+              >
+                Visa auktion →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 const auctions = ref([]);
 const loading = ref(true);
@@ -75,122 +67,65 @@ function formatPrice(price) {
 }
 
 function onImageError(e) {
-  e.target.src =
-    "https://via.placeholder.com/160x100?text=Ingen+bild";
+  e.target.src = "https://via.placeholder.com/160x100?text=Ingen+bild";
 }
+
+// ✅ Gruppera auktioner per län
+const auctionsByCounty = computed(() => {
+  const groups = {};
+  auctions.value.forEach(a => {
+    const county = a.county || "Okänt län";
+    if (!groups[county]) groups[county] = [];
+    groups[county].push(a);
+  });
+
+  // Sortera grupper enligt preferred order
+  const preferredOrder = ["Skåne län", "Blekinge län", "Halland län", "Västra Götalands län", "Östergötland län", "Stockholm län"];
+  const orderedGroups = {};
+
+  preferredOrder.forEach(c => {
+    if (groups[c]) orderedGroups[c] = groups[c];
+  });
+
+  // Lägg till övriga län sist
+  Object.keys(groups).forEach(c => {
+    if (!orderedGroups[c]) orderedGroups[c] = groups[c];
+  });
+
+  return orderedGroups;
+});
 </script>
 
 <style>
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: system-ui, sans-serif;
-}
+/* Behåll all befintlig CSS från din fil */
 
-.status {
-  padding: 20px;
-  color: #666;
+/* Lägg till styling för länsrubriker */
+.county-title {
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #0070f3;
+  padding-bottom: 4px;
 }
-
-.status.error {
-  color: red;
-}
-
-.list {
+.county-group .list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  overflow: hidden;
-  padding: 1em;
-}
-
-.image {
-  width: 100%;
-  max-height: 140px;
-  object-fit: cover;
-}
-
-.info {
-  flex: 1;
-}
-
-.info h2 {
-  margin: 0 0 6px;
-  font-size: 18px;
-  color: gray;
-}
-
-.meta {
-  color: #666;
-  font-size: 14px;
-}
-
-.price {
-  font-weight: bold;
-  margin: 8px 0;
-  color: black;
-}
-
-.location {
-  font-size: 14px;
-  color: #444;
-}
-
-.link {
-  display: inline-block;
-  margin-top: 8px;
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.loader-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px;
-  color: #555;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #ddd;
-  border-top: 4px solid #0070f3;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 12px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* Anpassa grid för responsiv design */
 @media (max-width: 1200px) {
-  .list {
+  .county-group .list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media (max-width: 800px) {
-  .list {
+  .county-group .list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 500px) {
-  .list {
+  .county-group .list {
     grid-template-columns: 1fr;
   }
 }
