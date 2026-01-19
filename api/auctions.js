@@ -1,19 +1,32 @@
 export default async function handler(req, res) {
   try {
-    const auctionsUrl = "https://carstore.eu/auction/se/api/auctions";
-    const detailTemplate =
-      "https://carstore.eu/auction/se/_next/data/vZUZauoDYP0-wtHk5k0KR/sv-SE/%d.json?path=%d";
+    // 1️⃣ Hämta huvud-sidan
+    const htmlRes = await fetch("https://carstore.eu/auction/se");
+    const htmlText = await htmlRes.text();
 
-    const auctionsResponse = await fetch(auctionsUrl);
-    const auctionsList = await auctionsResponse.json();
+    // 2️⃣ Extrahera dynamisk sträng (Build ID)
+    // Exempelrad: <script src="/auction/se/_next/static/vZUZauoDYP0-wtHk5k0KR/_buildManifest.js">
+    const match = htmlText.match(/_next\/static\/([a-zA-Z0-9-_]+)\/_buildManifest\.js/);
+
+    if (!match) throw new Error("Kan inte hitta Next.js Build ID");
+
+    const buildId = match[1];
+    console.log("Dynamisk buildId:", buildId);
+
+    // 3️⃣ Hämta alla auktioner
+    const auctionsUrl = "https://carstore.eu/auction/se/api/auctions";
+    const auctionsRes = await fetch(auctionsUrl);
+    const auctionsList = await auctionsRes.json();
 
     const results = [];
 
+    const detailTemplate = `https://carstore.eu/auction/se/_next/data/${buildId}/sv-SE/%d.json?path=%d`;
+
     for (const auction of auctionsList) {
       const id = auction.id;
-      const url = detailTemplate.replace(/%d/g, id);
+      const detailUrl = detailTemplate.replace(/%d/g, id);
 
-      const detailRes = await fetch(url);
+      const detailRes = await fetch(detailUrl);
       const json = await detailRes.json();
 
       const basePath =
@@ -40,6 +53,7 @@ export default async function handler(req, res) {
 
     res.status(200).json(results);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 }
