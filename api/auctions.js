@@ -46,7 +46,6 @@ export default async function handler(req, res) {
     const auctionsRes = await fetch(auctionsUrl);
     const auctionsList = await auctionsRes.json();
 
-    const auctionsRes = await fetch(auctionsUrl);
     const text = await auctionsRes.text();
 
     console.log("STATUS:", auctionsRes.status);
