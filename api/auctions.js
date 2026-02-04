@@ -47,6 +47,8 @@ export default async function handler(req, res) {
 
     const text = await auctionsRes.text();
 
+    console.error(auctionsUrl)
+
     if (!text.startsWith("{") && !text.startsWith("[")) {
       console.error("NOT JSON:", text.slice(0,200));
       throw new Error("Svar var inte JSON");
