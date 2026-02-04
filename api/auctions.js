@@ -62,10 +62,9 @@ export default async function handler(req, res) {
       const detailRes = await fetch(detailUrl);
       const json = await detailRes.json();
 
-      const basePath =
-        json?.pageProps?.componentProps?.[
-          "d85208dc-ef72-44b1-9152-d24372ae1dab"
-        ];
+      const componentProps = json?.pageProps?.componentProps;
+      const firstKey = componentProps && Object.keys(componentProps)[0];
+      const basePath = componentProps?.[firstKey];
 
       if (!basePath?.car) continue;
 
