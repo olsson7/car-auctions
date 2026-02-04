@@ -44,7 +44,15 @@ export default async function handler(req, res) {
     // 2️⃣ Hämta alla auktioner
     const auctionsUrl = AUCTIONS_API;
     const auctionsRes = await fetch(auctionsUrl);
-    const auctionsList = await auctionsRes.json();
+
+    const text = await auctionsRes.text();
+
+    if (!text.startsWith("{") && !text.startsWith("[")) {
+      console.error("NOT JSON:", text.slice(0,200));
+      throw new Error("Svar var inte JSON");
+    }
+
+    const auctionsList = JSON.parse(text);
 
     const detailTemplate = `${BASE_URL}/_next/data/${buildId}/sv-SE/%d.json?path=%d`;
 
