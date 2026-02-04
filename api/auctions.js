@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     // 2️⃣ Hämta alla auktioner
     const auctionsUrl = AUCTIONS_API;
     const auctionsRes = await fetch(auctionsUrl);
-    const auctionsList = await auctionsRes.json();
+    //const auctionsList = await auctionsRes.json();
 
     const text = await auctionsRes.text();
 
